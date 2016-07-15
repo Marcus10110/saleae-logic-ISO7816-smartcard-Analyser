@@ -1,0 +1,7 @@
+x64/
+Win32/
+/.vs/
+*.vcxproj.user
+*.sdf
+*.sln.ecd
+*.VC.opendb
