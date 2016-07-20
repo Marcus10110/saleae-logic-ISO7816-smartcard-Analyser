@@ -26,15 +26,21 @@ iso7816SimulationDataGenerator::~iso7816SimulationDataGenerator()
 
 void iso7816SimulationDataGenerator::Initialize( U32 simulation_sample_rate, iso7816AnalyzerSettings* settings )
 {
+	//this code is left over from a very old version of the sample analyzer source code - a serial analyzer. Note that mSerialSimulationData is not properly initialized, so using this code will result in a crash.
 	mSimulationSampleRateHz = simulation_sample_rate;
 	mSettings = settings;
     srand(rand() ^ static_cast<int>(time(NULL)));
 
 	mSerialSimulationData.SetInitialBitState( BIT_HIGH );
+
+
 }
 
 U32 iso7816SimulationDataGenerator::GenerateSimulationData( U64 largest_sample_requested, U32 sample_rate, SimulationChannelDescriptor** simulation_channel )
 {
+	//return 0 to indicate 0 simulation channels. Simulation was never implemented, and the old simulation code is obsolete and will crash if used.
+	return 0;
+
 	U64 adjusted_largest_sample_requested = AnalyzerHelpers::AdjustSimulationTargetSample( largest_sample_requested, sample_rate, mSimulationSampleRateHz );
 
 	while( mSerialSimulationData.GetCurrentSampleNumber() < adjusted_largest_sample_requested )
