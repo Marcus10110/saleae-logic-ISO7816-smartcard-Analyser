@@ -105,6 +105,22 @@ void iso7816Analyzer::_WorkerThread()
 	for( ; ; ) {
 		// seek for a RESET going high.
 		//
+
+		//make sure reset is fully advanced.
+		{
+			U64 minimum_sample = mReset->GetSampleNumber();
+			if( mIo->GetSampleNumber() > minimum_sample )
+				minimum_sample = mIo->GetSampleNumber();
+			if( mVcc->GetSampleNumber() > minimum_sample )
+				minimum_sample = mVcc->GetSampleNumber();
+			if( mClk->GetSampleNumber() > minimum_sample )
+				minimum_sample = mClk->GetSampleNumber();
+
+			if( mReset->GetSampleNumber() < minimum_sample )
+				mReset->AdvanceToAbsPosition( minimum_sample );
+
+		}
+
 		mReset->AdvanceToNextEdge();
 
 		if (mReset->GetBitState() != BIT_HIGH )
